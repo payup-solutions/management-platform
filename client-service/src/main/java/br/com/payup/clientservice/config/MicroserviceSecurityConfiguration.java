@@ -1,8 +1,8 @@
-package br.com.payup.userservice.config;
+package br.com.payup.clientservice.config;
 
-import br.com.payup.userservice.security.AuthoritiesConstants;
-import br.com.payup.userservice.security.jwt.JWTConfigurer;
-import br.com.payup.userservice.security.jwt.TokenProvider;
+import br.com.payup.clientservice.security.AuthoritiesConstants;
+import br.com.payup.clientservice.security.jwt.JWTConfigurer;
+import br.com.payup.clientservice.security.jwt.TokenProvider;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
