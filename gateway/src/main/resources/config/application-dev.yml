@@ -33,7 +33,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://192.169.99.100:3306/payup?currentSchema=gateway&useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://192.169.99.100:3306/gateway?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
         password:
         hikari:
