@@ -1,22 +1,21 @@
 package br.com.payup.userservice.service.impl;
 
-import br.com.payup.userservice.service.CardService;
-import br.com.payup.userservice.domain.Card;
-import br.com.payup.userservice.domain.Consumer;
-import br.com.payup.userservice.repository.CardRepository;
-import br.com.payup.userservice.repository.ConsumerRepository;
-import br.com.payup.userservice.service.dto.CardDTO;
-import br.com.payup.userservice.service.mapper.CardMapper;
-import br.com.payup.userservice.web.rest.ConsumerResourceIntTest;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
+import br.com.payup.userservice.domain.Card;
+import br.com.payup.userservice.domain.Consumer;
+import br.com.payup.userservice.repository.CardRepository;
+import br.com.payup.userservice.repository.ConsumerRepository;
+import br.com.payup.userservice.service.CardService;
+import br.com.payup.userservice.service.dto.CardDTO;
+import br.com.payup.userservice.service.mapper.CardMapper;
 
 /**
  * Service Implementation for managing Card.
