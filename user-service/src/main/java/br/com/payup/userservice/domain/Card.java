@@ -41,6 +41,10 @@ public class Card implements Serializable {
     @Column(name = "cvv", length = 3, nullable = false)
     private String cvv;
 
+    @NotNull
+    @Column(name = "active", nullable = false)
+    private Boolean active;
+
     @ManyToOne(optional = false)
     @NotNull
     private Consumer consumer;
@@ -106,6 +110,19 @@ public class Card implements Serializable {
         this.cvv = cvv;
     }
 
+    public Boolean isActive() {
+        return active;
+    }
+
+    public Card active(Boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     public Consumer getConsumer() {
         return consumer;
     }
@@ -148,6 +165,7 @@ public class Card implements Serializable {
             ", expirationDate='" + getExpirationDate() + "'" +
             ", name='" + getName() + "'" +
             ", cvv='" + getCvv() + "'" +
+            ", active='" + isActive() + "'" +
             "}";
     }
 }

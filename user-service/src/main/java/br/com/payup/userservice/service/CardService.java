@@ -37,4 +37,12 @@ public interface CardService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     *  Activate the "id" card.
+     *  
+     * @param id
+     * @return the entity
+     */
+	CardDTO activateCard(Long id);
 }

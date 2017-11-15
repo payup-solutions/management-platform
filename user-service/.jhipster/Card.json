@@ -51,6 +51,13 @@
             ],
             "fieldValidateRulesMinlength": "3",
             "fieldValidateRulesMaxlength": "3"
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20171113232508",

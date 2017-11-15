@@ -29,6 +29,9 @@ public class CardDTO implements Serializable {
     @Size(min = 3, max = 3)
     private String cvv;
 
+    @NotNull
+    private Boolean active;
+
     private Long consumerId;
 
     private String consumerName;
@@ -71,6 +74,14 @@ public class CardDTO implements Serializable {
 
     public void setCvv(String cvv) {
         this.cvv = cvv;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Long getConsumerId() {
@@ -118,6 +129,7 @@ public class CardDTO implements Serializable {
             ", expirationDate='" + getExpirationDate() + "'" +
             ", name='" + getName() + "'" +
             ", cvv='" + getCvv() + "'" +
+            ", active='" + isActive() + "'" +
             "}";
     }
 }

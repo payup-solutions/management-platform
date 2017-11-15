@@ -55,21 +55,47 @@ public class CardServiceImpl implements CardService{
 
     private void preProccessSave(Card card) {
 		validateCard(card);
-		setConsumer(card);
+		if (card.getId() == null) {
+			setConsumer(card);
+			setActive(card);
+		} else {
+			validateConsumer(card);
+		}
+	}
+
+	private void setActive(Card card) {
+		// TODO check for old active card from this consumer
+		Card oldActiveCard = cardRepository.findByActiveTrueAndConsumer(card.getConsumer());
+		
+		if (oldActiveCard == null) {
+			card.setActive(true);
+		}
+		
 	}
 
 	private void setConsumer(Card card) {
 		// TODO Auto-generated method stub
 		// GET CONSUMER FROM LOGGED USER
-		Consumer consumer = new Consumer();
-		consumer.setName("Jota");
-		consumerRepository.save(consumer);
-		card.setConsumer(consumer);
+		
+		List<Consumer> consumers = consumerRepository.findAll();
+		if (!consumers.isEmpty()) {
+			card.setConsumer(consumers.get(0));
+		} else {
+			Consumer consumer = new Consumer();
+			consumer.setName("Jota");
+			consumerRepository.save(consumer);
+			card.setConsumer(consumer);
+		}
 	}
 
 	private void validateCard(Card card) {
 		// TODO Auto-generated method stub
 		// PUT CARD VALIDATIONS AND THROW EXCEPTION
+	}
+	
+	private void validateConsumer(Card card) {
+		// TODO VALIDATE IF CONSUMER IS LOGGED CONSUMER
+		// AND THROW EXCEPTIONS
 	}
 
 	/**
@@ -108,6 +134,25 @@ public class CardServiceImpl implements CardService{
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Card : {}", id);
+		Card card = cardRepository.findOne(id);
+		validateConsumer(card);
+        
         cardRepository.delete(id);
     }
+
+	@Override
+	public CardDTO activateCard(Long id) {
+		log.debug("Request to activate Card : {}", id);
+		Card card = cardRepository.findOne(id);
+		validateConsumer(card);
+		
+		Card oldActiveCard = cardRepository.findByActiveTrueAndConsumer(card.getConsumer());
+		oldActiveCard.setActive(false);
+		cardRepository.save(oldActiveCard);
+		
+		card.setActive(true);
+		cardRepository.save(card);
+		
+		return cardMapper.toDto(card);
+	}
 }

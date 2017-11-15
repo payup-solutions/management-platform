@@ -38,6 +38,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="active" type="bit">
+                <constraints nullable="false" />
+            </column>
+
             <column name="consumer_id" type="bigint">
                 <constraints nullable="false" />
             </column>

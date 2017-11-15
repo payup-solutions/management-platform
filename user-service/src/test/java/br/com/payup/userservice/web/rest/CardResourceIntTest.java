@@ -53,6 +53,9 @@ public class CardResourceIntTest {
     private static final String DEFAULT_CVV = "AAA";
     private static final String UPDATED_CVV = "BBB";
 
+    private static final Boolean DEFAULT_ACTIVE = false;
+    private static final Boolean UPDATED_ACTIVE = true;
+
     @Autowired
     private CardRepository cardRepository;
 
@@ -99,7 +102,8 @@ public class CardResourceIntTest {
             .number(DEFAULT_NUMBER)
             .expirationDate(DEFAULT_EXPIRATION_DATE)
             .name(DEFAULT_NAME)
-            .cvv(DEFAULT_CVV);
+            .cvv(DEFAULT_CVV)
+            .active(DEFAULT_ACTIVE);
         // Add required entity
         Consumer consumer = ConsumerResourceIntTest.createEntity(em);
         em.persist(consumer);
@@ -133,6 +137,7 @@ public class CardResourceIntTest {
         assertThat(testCard.getExpirationDate()).isEqualTo(DEFAULT_EXPIRATION_DATE);
         assertThat(testCard.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCard.getCvv()).isEqualTo(DEFAULT_CVV);
+        assertThat(testCard.isActive()).isEqualTo(DEFAULT_ACTIVE);
     }
 
     @Test
@@ -233,6 +238,25 @@ public class CardResourceIntTest {
 
     @Test
     @Transactional
+    public void checkActiveIsRequired() throws Exception {
+        int databaseSizeBeforeTest = cardRepository.findAll().size();
+        // set the field null
+        card.setActive(null);
+
+        // Create the Card, which fails.
+        CardDTO cardDTO = cardMapper.toDto(card);
+
+        restCardMockMvc.perform(post("/api/cards")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(cardDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Card> cardList = cardRepository.findAll();
+        assertThat(cardList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllCards() throws Exception {
         // Initialize the database
         cardRepository.saveAndFlush(card);
@@ -245,7 +269,8 @@ public class CardResourceIntTest {
             .andExpect(jsonPath("$.[*].number").value(hasItem(DEFAULT_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].expirationDate").value(hasItem(DEFAULT_EXPIRATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].cvv").value(hasItem(DEFAULT_CVV.toString())));
+            .andExpect(jsonPath("$.[*].cvv").value(hasItem(DEFAULT_CVV.toString())))
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
 
     @Test
@@ -262,7 +287,8 @@ public class CardResourceIntTest {
             .andExpect(jsonPath("$.number").value(DEFAULT_NUMBER.toString()))
             .andExpect(jsonPath("$.expirationDate").value(DEFAULT_EXPIRATION_DATE.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.cvv").value(DEFAULT_CVV.toString()));
+            .andExpect(jsonPath("$.cvv").value(DEFAULT_CVV.toString()))
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
     }
 
     @Test
@@ -286,7 +312,8 @@ public class CardResourceIntTest {
             .number(UPDATED_NUMBER)
             .expirationDate(UPDATED_EXPIRATION_DATE)
             .name(UPDATED_NAME)
-            .cvv(UPDATED_CVV);
+            .cvv(UPDATED_CVV)
+            .active(UPDATED_ACTIVE);
         CardDTO cardDTO = cardMapper.toDto(updatedCard);
 
         restCardMockMvc.perform(put("/api/cards")
@@ -302,6 +329,7 @@ public class CardResourceIntTest {
         assertThat(testCard.getExpirationDate()).isEqualTo(UPDATED_EXPIRATION_DATE);
         assertThat(testCard.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testCard.getCvv()).isEqualTo(UPDATED_CVV);
+        assertThat(testCard.isActive()).isEqualTo(UPDATED_ACTIVE);
     }
 
     @Test
