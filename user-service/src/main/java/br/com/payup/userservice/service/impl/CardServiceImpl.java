@@ -135,10 +135,21 @@ public class CardServiceImpl implements CardService{
     public void delete(Long id) {
         log.debug("Request to delete Card : {}", id);
 		Card card = cardRepository.findOne(id);
-		validateConsumer(card);
+		deleteValidations(card);
         
         cardRepository.delete(id);
     }
+
+	private void deleteValidations(Card card) {
+		validateConsumer(card);
+		validateActive(card);
+		
+	}
+
+	private void validateActive(Card card) {
+		// TODO Auto-generated method stub
+		// validate if card is active
+	}
 
 	@Override
 	public CardDTO activateCard(Long id) {
