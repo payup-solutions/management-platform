@@ -65,7 +65,7 @@ public class CardServiceImpl implements CardService{
 
 	private void setActive(Card card) {
 		// TODO check for old active card from this consumer
-		Card oldActiveCard = cardRepository.findByActiveTrueAndConsumer(card.getConsumer());
+		Card oldActiveCard = cardRepository.findByActiveTrueAndConsumerId(card.getConsumer().getId());
 		
 		if (oldActiveCard == null) {
 			card.setActive(true);
@@ -107,7 +107,9 @@ public class CardServiceImpl implements CardService{
     @Transactional(readOnly = true)
     public List<CardDTO> findAll() {
         log.debug("Request to get all Cards");
-        return cardRepository.findAll().stream()
+        
+        // TODO GET LOGGED CONSUMER FROM LOGGED USER
+        return cardRepository.findByConsumerId(1L).stream()
             .map(cardMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }
@@ -157,7 +159,7 @@ public class CardServiceImpl implements CardService{
 		Card card = cardRepository.findOne(id);
 		validateConsumer(card);
 		
-		Card oldActiveCard = cardRepository.findByActiveTrueAndConsumer(card.getConsumer());
+		Card oldActiveCard = cardRepository.findByActiveTrueAndConsumerId(card.getConsumer().getId());
 		oldActiveCard.setActive(false);
 		cardRepository.save(oldActiveCard);
 		
