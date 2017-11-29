@@ -38,6 +38,6 @@ public class TransactionResource {
     public List<TransactionDTO> getAllTransactions() {
         log.debug("REST request to get all Transactions");
         return transactionService.findAll();
-        }
+    }
 
 }

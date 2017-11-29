@@ -61,7 +61,7 @@ public class CardResource {
     public List<CardDTO> getAllCards() {
         log.debug("REST request to get all Cards");
         return cardService.findAll();
-        }
+    }
 
     /**
      * GET  /cards/:id : get the "id" card.
