@@ -71,7 +71,7 @@ public class CodeServiceImpl implements CodeService{
     	List<Consumer> consumers = consumerRepository.findAll();
     	
     	Code builtCode = new Code().active(true).activationDate(ZonedDateTime.now()).value(code).consumer(consumers.get(0));
-    	builtCode.expirationDate(builtCode.getActivationDate().plusDays(MAX_HOURS_CODE_DURATION));
+    	builtCode.expirationDate(builtCode.getActivationDate().plusHours(MAX_HOURS_CODE_DURATION));
     	return builtCode;
     }
 
